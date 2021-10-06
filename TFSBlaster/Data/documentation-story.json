@@ -1,0 +1,143 @@
+﻿{
+  "TfsUri": "https://your.tfs.hostname:port/tfs/DefaultCollection/ProductLine/",
+  "RequestTimeout": 300000,
+  "WorkItemDefaults": {
+    "AreaPath": "ProductLine\\Mine Alert",
+    "IterationPath": "ProductLine\\Predictive Solutions\\FY21\\Q2\\Sprint 13",
+    "Assignee": "Tech Writer",
+    "TextReplacements": {
+      //"${title-prefix}": "[MS1]",
+      //"${product-name}": "MA Central 2.3.1",
+      //"${feature-name}": "Configurable stroke width on Mine Graphics"
+    }
+  },
+  "Actions": [
+
+    ///////////////////////////
+    // REFERENCE ONLY ITEMS: //
+    ///////////////////////////
+    {
+      "Name": "REFERENCE ONLY ITEMS",
+      "Mode": "NoAction",
+      "WorkItems": [
+        {
+          "ProfileID": "parent-workitem",
+          "WorkItemID": 720775
+        }
+        //{
+        //  "ProfileID": "parent-feature",
+        //  "WorkItemID": 720756
+        //}
+      ] //end action.workitems
+    },
+
+    /////////////////////////////
+    //// CREATE PARENT ACTION: //
+    /////////////////////////////
+    //{
+    //  "Name": "CREATE PARENT",
+    //  "Mode": "Create",
+    //  "WorkItemDefaults": {},
+    //  "WorkItems": [
+    //    {
+    //      "ProfileID": "parent-workitem",
+    //      "Title": "[MS1] Document - MineAlert 3.0.0 Embedded Install Guide update for Geofence",
+    //      "Description": "TBD",
+    //      "AcceptanceCriteria": "Product documentation is updated",
+    //      "RiskAnalysis": "No significant risks",
+    //      //"FirstComment": "TFSBlaster wuz here",
+    //      "StoryPoints": 5,
+    //      "Type": "UserStory",
+    //      "Tags": [
+    //        "L9 Machine Control",
+    //        "Milestone 1",
+    //        //"Low Speed Maneuvering",
+    //        "GeoFencing",
+    //        //"Guided Spotting",
+    //        "MineAlert 3.0.0"
+    //        //"MineAlert 2.3.1"
+    //        //"CAS DVI",
+    //        //"CAS 2.0.6"
+    //      ],
+    //      "Links": [
+    //        {
+    //          "Type": "Parent",
+    //          "LinkedProfileID": "parent-feature"
+    //          //"LinkedItemID": 689057
+    //        }
+    //      ]
+    //    }
+    //  ] //end action.workitems
+    //}, //end action
+
+    //////////////////////////
+    // CREATE TASKS ACTION: //
+    //////////////////////////
+    {
+      "Name": "CREATE TASKS",
+      "Mode": "Create",
+      "WorkItemDefaults": {
+        "Type": "Task",
+        "Links": [
+          {
+            "Type": "Parent",
+            "LinkedProfileID": "parent-workitem"
+          }
+        ]
+      },
+      "WorkItems": [
+        //{
+        //  "ProfileID": "technical-analysis-task",
+        //  "Title": "1) Technical analysis",
+        //  "Description": "Provide MA 3.0.0 config parameter list (name, how it's used, shipped default value, range of allowed values) to Tech Writer",
+        //  //"FirstComment": "TFSBlaster wuz here 2",
+        //  "Activity": "Infrastructure",
+        //  "HoursRemaining": 5
+        //},
+        {
+          "ProfileID": "first-draft-task",
+          "Title": "1) First draft"
+          //"Description": "",
+          //"FirstComment": "TFSBlaster wuz here 2"
+        },
+        {
+          "ProfileID": "review-editorial-task",
+          "Title": "2) Editorial review",
+          "State": "Blocked",
+          "Assignee": "Tech Writing Editor",
+          "Description": "Review of writing quality from the tech writing team.",
+          "FirstComment": "Blocked until first draft is ready for review. May also be blocked until a first round of tech review is provided."
+        },
+        {
+          "ProfileID": "review-technical-task",
+          "Title": "2) Technical review",
+          "State": "Blocked",
+          "Assignee":  "",
+          "Description": "Review of writing accuracy from the dev team.",
+          "FirstComment": "Blocked until first draft is ready for review."
+        },
+        {
+          "ProfileID": "review-support-task",
+          "Title": "3) Get SDS review",
+          "State": "Blocked",
+          "Description": "Review of writing usability from the support team.",
+          "FirstComment": "Blocked until editorial and tech reviews are done."
+        },
+        {
+          "ProfileID": "finalize-task",
+          "Title": "3) Finalize changes",
+          "State": "Blocked",
+          "Description": "Can't be closed until all reviews are complete.",
+          "FirstComment": "Blocked until a review indicates changes are needed."
+        },
+        {
+          "ProfileID": "publish-task",
+          "Title": "4) Publish updated doc",
+          "State": "Blocked",
+          //"Description": "Can't be closed until all reviews are complete.",
+          "FirstComment": "Blocked until changes are finalized."
+        }
+      ] //end action.workitems
+    } //end action
+  ] //end blast.actions
+}

@@ -1,0 +1,342 @@
+{
+  "TfsUri": "https://your.tfs.hostname:port/tfs/DefaultCollection/ProductLine/",
+  "RequestTimeout": 300000,
+  "WorkItemDefaults": {
+    "AreaPath": "ProductLine\\Mine Alert\\L9 Machine Control",
+    "IterationPath": "ProductLine\\Predictive Solutions\\FY21\\Sprint 09\\PS-B FY21.09 (Jul 28 - Aug 10)",
+    "Assignee": "",
+    "TextReplacements": {
+      //"${title-prefix}": "[MS2]",
+      //"${product-name}": "GeoFencing",
+      //"${feature-name}": "Configurable stroke width on Mine Graphics"
+    }
+  },
+  "Actions": [
+
+    ///////////////////////////
+    // REFERENCE ONLY ITEMS: //
+    ///////////////////////////
+    {
+      "Name": "REFERENCE ONLY ITEMS",
+      "Mode": "NoAction",
+      "WorkItems": [
+        {
+          "ProfileID": "parent-workitem",
+          "WorkItemID": 772589
+        }
+        //{
+        //  "ProfileID": "parent-feature",
+        //  "WorkItemID": 745150 //MA Central 2.3.1 Release
+        //}
+        //{
+        //  "ProfileID": "predecessor-workitem",
+        //  "WorkItemID": 758094
+        //}
+      ] //end action.workitems
+    },
+
+    /////////////////////////////
+    //// CREATE PARENT ACTION: //
+    /////////////////////////////
+    //{
+    //  "Name": "CREATE PARENT",
+    //  "Mode": "Create",
+    //  "WorkItemDefaults": {
+    //    "Type": "UserStory", //"Bug", "User Story"
+    //    "Tags": [
+    //      "L9 Machine Control"
+    //      ,"Milestone 1"
+    //      //,"Low Speed Maneuvering"
+    //      //,"DFT"
+    //      //,"GeoFencing"
+    //      //,"MineAlert 3.0.0"
+    //      ,"MineAlert 2.3.1"
+    //      //,"MVP"
+    //      //,"CAS DVI"
+    //    ],
+    //    "Links": [
+    //      {
+    //        "Type": "Parent",
+    //        "LinkedProfileID": "parent-feature"
+    //      }
+    //      //{
+    //      //  "Type": "Predecessor",
+    //      //  "LinkedProfileID": "predecessor-workitem"
+    //      //}
+    //    ]
+    //  },
+    //  "WorkItems": [
+    //    {
+    //      "ProfileID": "parent-workitem",
+    //      "Title": "[MS1] MA Central 2.3.1: CommonUI BVR",
+    //      "Description": "Construct a BVR to represent the ",
+    //      "AcceptanceCriteria": "TBD", //REQUIRED FOR USER STORIES
+    //      "RiskAnalysis": "TBD", //REQUIRED FOR USER STORIES
+    //      //"FirstComment": "TFSBlaster wuz here",
+    //      "StoryPoints": 3
+    //    }
+    //  ] //end action.workitems
+    //}, //end action
+
+    //////////////////////////
+    // CREATE TASKS ACTION: //
+    //////////////////////////
+    {
+      "Name": "CREATE TASKS",
+      "Mode": "Create",
+      "WorkItemDefaults": {
+        "Type": "Task",
+        "Links": [
+          {
+            "Type": "Parent",
+            "LinkedProfileID": "parent-workitem"
+          }
+        ]
+      },
+      "WorkItems": [
+        //{
+        //  "ProfileID": "analyze-task",
+        //  "Title": "1) Analyze",
+        //  "Description": "Evaluate available data sources (VID log, DAS log, position log, etc) and existing tools for map visualization (including the Guided Spotting visualizer attached to parent story), then plan a solution for each map visualization need listed in the parent story description.",
+        //  //"FirstComment": "TFSBlaster wuz here 2",
+        //  //"Activity": "Development",
+        //  //"HoursRemaining": 8
+        //},
+        {
+          "ProfileID": "implement-task",
+          "Title": "2) Implement",
+          //"State": "Blocked",
+          //"Description": "",
+          //"FirstComment": "Blocked until analysis is far enough along to start writing code.",
+          //"Activity": "Development",
+          //"HoursRemaining": 1
+        },
+        {
+          "ProfileID": "unit-tests-task",
+          "Title": "2) Unit tests",
+          "State": "Blocked",
+          "Description": "Implement unit tests if applicable and feasible. If not, close this task and leave an explanation in a comment.",
+          "FirstComment": "Blocked until implementation can begin.",
+          //"Activity": "Development",
+          //"HoursRemaining": 1
+        },
+        {
+          "ProfileID": "dev-tests-task",
+          "Title": "3) Developer tests",
+          "State": "Blocked",
+          "Description": "Link test cases executed during development directly to this task.",
+          "FirstComment": "Blocked until test cases pass review.",
+          //"Activity": "Development",
+          //"HoursRemaining": 1
+        },
+        {
+          "ProfileID": "impl-code-review-request-task",
+          "Title": "3) Code review, unit test results, merge",
+          //"State": "Blocked",
+          "Description": "Create the pull request, send code review invites, get the team to review, address code review comments. Reopen other tasks if major changes are necessary. Otherwise, if there are no new unit test failures, complete the merge.",
+          "FirstComment": "Blocked until implementation is complete, including in-repository documentation if applicable.",
+          //"Activity": "Development",
+          //"HoursRemaining": 1
+        },
+        {
+          "ProfileID": "impl-code-review-1-task",
+          "Title": "4) Code review 1",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until code review is requested.",
+          //"Activity": "Development",
+          //"HoursRemaining": 1
+        },
+        {
+          "ProfileID": "impl-code-review-2-task",
+          "Title": "4) Code review 2",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until code review is requested.",
+          //"Activity": "Development",
+          //"HoursRemaining": 1
+        },
+        {
+          "ProfileID": "risk-analysis-task",
+          "Title": "3) Risk analysis",
+          "State": "Blocked",
+          "Description": "Per QE gu1idelines: <a href=\"http://examplewiki.com/x/VYAqAQ\">http://examplewiki.com/x/VYAqAQ</a><br />Identify any risks created by the code changes that were made.<br/>Include consideration for other features dependent on the changed code.<br/>Record the risks in the appropriate spreadsheet.<br/>Ensure the test plan provides appropriate coverage of risks. If it doesn't, update the test plan and run the additional tests (reopen other tasks as necessary).",
+          "FirstComment": "Blocked until implementation is complete.",
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 1
+        },
+        {
+          "ProfileID": "test-link-task",
+          "Title": "1) Write/link test cases"
+          //"State": "Blocked",
+          //"Description": "Look at the test cases on the original ProVision bug for inspiration (see link on this bug).",
+          //"FirstComment": "Blocked until analysis is complete",
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 1
+        },
+        {
+          "ProfileID": "test-review-task",
+          "Title": "2) Review test cases",
+          "State": "Blocked",
+          "Description": "Confirm all test cases satisfy the test case review checklist: <a href=\"http://examplewiki.com/x/84YFBQ\">http://examplewiki.com/x/84YFBQ</a>",
+          "FirstComment": "Blocked until all necessary test cases are created/updated and linked."
+          //"Activity": "Testing",
+          //"HoursRemaining": 1
+        },
+        {
+          "ProfileID": "test-task",
+          "Title": "3) Execute tests",
+          "State": "Blocked",
+          "Description": "Execute linked test cases against a merge build or a build from develop branch.",
+          "FirstComment": "Blocked until test cases pass review."
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 1
+        },
+        //{
+        //  "ProfileID": "tool-dev-task",
+        //  "Title": "Tooling development",
+        //  "State": "Blocked",
+        //  "Description": "Adjust existing internal tools or create new ones as needed for development, verification, and/or support of the changes implemented.<br />If there's more than two days of tool work to do across all tooling tasks, turn these tasks into a separate story.",
+        //  //"FirstComment": "TFSBlaster wuz here 2",
+        //  //"Activity": "Development",
+        //  //"HoursRemaining": 8
+        //},
+        //{
+        //  "ProfileID": "tool-review-task",
+        //  "Title": "Tooling code review",
+        //  "State": "Blocked",
+        //  "Description": "Code review of tooling development work",
+        //  //"FirstComment": "TFSBlaster wuz here 2",
+        //  //"Activity": "Development",
+        //  //"HoursRemaining": 2
+        //},
+        //{
+        //  "ProfileID": "tool-test-task",
+        //  "Title": "Tooling tests",
+        //  "State": "Blocked",
+        //  "Description": "Write/update and execute test cases to verify the tooling changes implement the necessary functionality without loss of existing functionality.",
+        //  //"FirstComment": "TFSBlaster wuz here 2",
+        //  //"Activity": "Infrastructure",
+        //  //"HoursRemaining": 3
+        //},
+        //{
+        //  "ProfileID": "tool-doc-task",
+        //  "Title": "3) Tooling documentation",
+        //  "State": "Blocked",
+        //  //"Description": "",
+        //  //"FirstComment": "TFSBlaster wuz here 2",
+        //  //"Activity": "Infrastructure",
+        //  //"HoursRemaining": 3
+        //},
+        //{
+        //  "ProfileID": "demo-task",
+        //  "Title": "Demo to stakeholders",
+        //  "State": "Blocked",
+        //  "Description": "Either include this feature in a sprint demo, or schedule a dedicated demo meeting with stakeholders.\nGet confirmation that the delivered feature meets expectations.",
+        //  //"FirstComment": "TFSBlaster wuz here 2",
+        //  //"Activity": "Development",
+        //  //"HoursRemaining": 3
+        //},
+        {
+          "ProfileID": "release-prep-task",
+          "Title": "4) Review release preparedness",
+          "State": "Blocked",
+          "Description": "Verify that the bug/feature meets all criteria for release preparedness: http://examplewiki.com/display/MINEALERT/Definition+of+Done#DefinitionofDone-Releasepreparednessreview",
+          "FirstComment": "Blocked until implementation and risk analysis are complete.",
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 1
+        },
+        //{
+        //  "ProfileID": "aut-write-task",
+        //  "Title": "Create automation scenarios",
+        //  //"State": "Blocked",
+        //  "Description": "A scenario involving 30-40 RVs with equipment type filtering to put high load on CAS and LSM. One RV should enter and exit the LSM danger zone as rapidly as possible to trigger intervention and clearing conditions.",
+        //  //"FirstComment": "Blocked until all review and developer testing is complete.",
+        //  //"Activity": "Infrastructure",
+        //  //"HoursRemaining": 21
+        //},
+        //{
+        //  "ProfileID": "aut-code-review-request-task",
+        //  "Title": "Request automation code review and follow up",
+        //  "State": "Blocked",
+        //  "Description": "Create the pull request, send code review invites, get the team to review, address code review comments. Reopen other tasks if major changes are necessary.",
+        //  "FirstComment": "Blocked until implementation is complete.",
+        //  //"Activity": "Infrastructure",
+        //  //"HoursRemaining": 2
+        //},
+        //{
+        //  "ProfileID": "aut-code-review-1-task",
+        //  "Title": "Automation code review 1",
+        //  "State": "Blocked",
+        //  //"Description": "Task blasted!",
+        //  "FirstComment": "Blocked until code review is requested.",
+        //  //"Activity": "Infrastructure",
+        //  //"HoursRemaining": 1
+        //},
+        //{
+        //  "ProfileID": "aut-execute-task",
+        //  "Title": "Automation: execute",
+        //  "State": "Blocked",
+        //  "Description": "Execute the automation scenario. Plan enough iterations to gather the necessary volume of intervention request delay measurements. Periodically check that execution is continuing smoothly.",
+        //  "FirstComment": "Blocked until scenario is complete and environment is ready.",
+        //  //"Activity": "Infrastructure",
+        //  //"HoursRemaining": 8
+        //},
+        //{
+        //  "ProfileID": "report-task",
+        //  "Title": "Report statistical analysis",
+        //  "State": "Blocked",
+        //  "Description": "Provide statistical analysis of data gathered from automation test run. Compile a report and submit to Will Casson and Lucas.",
+        //  "FirstComment": "Blocked until automation scenario execution is complete.",
+        //  //"Activity": "Infrastructure",
+        //  //"HoursRemaining": 21
+        //},
+        //{
+        //  "ProfileID": "document-user-task",
+        //  "Title": "${product-name} user documentation planning",
+        //  //"State": "Blocked",
+        //  "Description": "Plan documentation updates for this change. If it's enough work, it should probably be a separate story.",
+        //  //"FirstComment": "Blocked until analysis is complete and a design is produced.",
+        //  //"Activity": "Documentation",
+        //  //"HoursRemaining": 3
+        //},
+        //{
+        //  "ProfileID": "document-support-task",
+        //  "Title": "${product-name} support documentation: ${feature-name}",
+        //  //"State": "Blocked",
+        //  //"Description": "",
+        //  //"FirstComment": "Blocked until analysis is complete and a design is produced.",
+        //  //"Activity": "Documentation",
+        //  //"HoursRemaining": 2
+        //},
+        //{
+        //  "ProfileID": "document-tooling-task",
+        //  "Title": "3) Tooling documentation",
+        //  "State": "Blocked",
+        //  "Description": "If applicable and reasonable, write this documentation in a readme with markup directly in the tool's code repository.",
+        //  "FirstComment": "Blocked until the tool is implemented and ready for documentation.",
+        //  //"Activity": "Development",
+        //  //"HoursRemaining": 5
+        //}
+        {
+          "ProfileID": "document-planning-task",
+          "Title": "2) Plan documentation changes",
+          "State": "Blocked",
+          //"Description": "",
+          "FirstComment": "Blocked until analysis is complete and a design is produced.",
+          //"Activity": "Documentation",
+          //"HoursRemaining": 1
+        }
+        //{
+        //  "ProfileID": "document-review-task",
+        //  "Title": "Technical review",
+        //  "State": "Blocked",
+        //  //"Description": "",
+        //  "FirstComment": "Blocked until documentation is ready for review.",
+        //  //"Activity": "Infrastructure",
+        //  //"HoursRemaining": 1
+        //}
+      ] //end action.workitems
+    } //end action
+  ] //end blast.actions
+}

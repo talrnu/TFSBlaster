@@ -1,0 +1,209 @@
+﻿{
+  "TfsUri": "https://your.tfs.hostname:port/tfs/DefaultCollection/ProductLine/",
+  "RequestTimeout": 300000,
+  "WorkItemDefaults": {
+    "AreaPath": "ProductLine\\Mine Alert\\L9 Machine Control",
+    "IterationPath": "ProductLine\\Predictive Solutions\\FY21\\Sprint 09",
+    "Assignee": "",
+    "TextReplacements": {
+      //"${title-prefix}": "[MS1]",
+      //"${product-name}": "MA Central 2.3.1",
+      //"${feature-name}": "Configurable stroke width on Mine Graphics"
+    }
+  },
+  "Actions": [
+
+    ///////////////////////////
+    // REFERENCE ONLY ITEMS: //
+    ///////////////////////////
+    {
+      "Name": "REFERENCE ONLY ITEMS",
+      "Mode": "NoAction",
+      "WorkItems": [
+        //{
+        //  "ProfileID": "parent-workitem",
+        //  "WorkItemID": 745165
+        //}
+        {
+          "ProfileID": "parent-feature",
+          "WorkItemID": 692824
+        }
+      ] //end action.workitems
+    },
+
+    ///////////////////////////
+    // CREATE PARENT ACTION: //
+    ///////////////////////////
+    {
+      "Name": "CREATE PARENT",
+      "Mode": "Create",
+      "WorkItemDefaults": {},
+      "WorkItems": [
+        {
+          "ProfileID": "parent-workitem",
+          "Title": "[MS2] MA Central 2.3.2: RemoteDeployment Service BVR",
+          "Description": "Construct a BVR for this new service.",
+          "AcceptanceCriteria": "BVR is complete and approved",
+          "RiskAnalysis": "No significant risks.",
+          //"FirstComment": "TFSBlaster wuz here",
+          "StoryPoints": 5,
+          "Type": "UserStory",
+          "Tags": [
+            "L9 Machine Control",
+            "Milestone 2",
+            //"Low Speed Maneuvering",
+            //"GeoFencing",
+            //"MineAlert 3.0.0"
+            "MineAlert 2.3.2"
+            //"CAS DVI",
+            //"CAS 2.0.6"
+          ],
+          "Links": [
+            {
+              "Type": "Parent",
+              "LinkedProfileID": "parent-feature"
+              //"LinkedItemID": 745150
+            }
+          ]
+        }
+      ] //end action.workitems
+    }, //end action
+
+    //////////////////////////
+    // CREATE TASKS ACTION: //
+    //////////////////////////
+    {
+      "Name": "CREATE TASKS",
+      "Mode": "Create",
+      "WorkItemDefaults": {
+        "Type": "Task",
+        "Links": [
+          {
+            "Type": "Parent",
+            "LinkedProfileID": "parent-workitem"
+          }
+        ]
+      },
+      "WorkItems": [
+        {
+          "ProfileID": "requirements-task",
+          "Title": "1) Requirements and features"
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 5
+        },
+        {
+          "ProfileID": "test-results-task",
+          "Title": "1) Test results"
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 5
+        },
+        {
+          "ProfileID": "compatibility-task",
+          "Title": "1) Compatibility matrix"
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 5
+        },
+        {
+          "ProfileID": "fixed-defects-task",
+          "Title": "1) Fixed defects"
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 5
+        },
+        {
+          "ProfileID": "known-issues-task",
+          "Title": "1) Known issues"
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 5
+        },
+        {
+          "ProfileID": "eccn-task",
+          "Title": "1) ECCN"
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 5
+        },
+        {
+          "ProfileID": "release-notes-task",
+          "Title": "1) Technical rekease notes"
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 5
+        },
+        {
+          "ProfileID": "documentation-task",
+          "Title": "1) Publish documentation"
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          //"Activity": "Documentation",
+          //"HoursRemaining": 1
+        },
+        {
+          "ProfileID": "documentation-task",
+          "Title": "2) Documentation: create download and resource center pages",
+          "State": "Blocked",
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          "FirstComment": "Blocked until documents are published."
+          //"Activity": "Documentation",
+          //"HoursRemaining": 1
+        },
+        {
+          "ProfileID": "documentation-task",
+          "Title": "3) Add documentation links to BVR",
+          "State": "Blocked",
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          "FirstComment": "Blocked until download and resource center pages are created."
+          //"Activity": "Documentation",
+          //"HoursRemaining": 5
+        },
+        {
+          "ProfileID": "sds-kt-task",
+          "Title": "2) SDS KT",
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          "State": "Blocked",
+          "FirstComment": "Blocked until release materials are ready to share with SDS."
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 5
+        },
+        {
+          "ProfileID": "test-lead-task",
+          "Title": "2) Test lead review",
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          "State": "Blocked",
+          "FirstComment": "Blocked until all release materials are ready for review."
+          //"Activity": "Review",
+          //"HoursRemaining": 5
+        },
+        {
+          "ProfileID": "tech-lead-task",
+          "Title": "2) Tech lead review",
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          "State": "Blocked",
+          "FirstComment": "Blocked until all release materials are ready for review."
+          //"Activity": "Review",
+          //"HoursRemaining": 5
+        },
+        {
+          "ProfileID": "approval-task",
+          "Title": "3) Approval workflow",
+          //"Description": "Provide data model change spreadsheet to Tech Writer",
+          "State": "Blocked",
+          "FirstComment": "Blocked until all review is complete."
+          //"Activity": "Infrastructure",
+          //"HoursRemaining": 5
+        }
+      ] //end action.workitems
+    } //end action
+  ] //end blast.actions
+}

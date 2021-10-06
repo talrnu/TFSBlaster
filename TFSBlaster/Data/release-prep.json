@@ -1,0 +1,180 @@
+{
+  "TfsUri": "https://your.tfs.hostname:port/tfs/DefaultCollection/ProductLine/",
+  "RequestTimeout": 30000,
+  "WorkItemDefaults": {
+    "AreaPath": "ProductLine\\Mine Alert\\Collision Awareness",
+    "IterationPath": "ProductLine\\Safety Systems\\MineAlert FY20\\Sprint 7 (Aug 20 - Sep 9)",
+    "Assignee": "",
+    "Tags": [
+      "L9 Machine Control",
+      "Milestone 1",
+      "MineAlert 2.3.0",
+      "MVP",
+      "CAS 2.0.6"
+    ],
+    "TextReplacements": {
+      "${title-prefix}": "[MS1]",
+      "${product-name}": "CAS 2.0.6",
+      "${feature-name}": "Release"
+    }
+  },
+  "Actions": [
+
+    ///////////////////////////
+    // REFERENCE ONLY ITEMS: //
+    ///////////////////////////
+    {
+      "Name": "REFERENCE ONLY ITEMS",
+      "Mode": "NoAction",
+      "WorkItems": [
+        {
+          "ProfileID": "milestone1-release-epic",
+          "WorkItemID": 688930
+        }
+      ] //end action.workitems
+    },
+
+    ////////////////////////////
+    // CREATE FEATURE ACTION: //
+    ////////////////////////////
+    {
+      "Name": "CREATE FEATURE",
+      "Mode": "Create",
+      "WorkItems": [
+        {
+          "ProfileID": "release-feature",
+          "Type": "Feature",
+          "Title": "${title-prefix} ${product-name} ${feature-name}",
+          "IterationPath": "ProductLine\\Safety Systems",
+          "Links": [
+            {
+              "Type": "Parent",
+              "LinkedProfileID": "milestone1-release-epic"
+            }
+          ]
+        }
+      ] //end action.workitems
+    },
+
+    /////////////////////////////////
+    // CREATE TEST STORIES ACTION: //
+    /////////////////////////////////
+    {
+      "Name": "CREATE STORIES",
+      "Mode": "Create",
+      "WorkItemDefaults": {
+        "Type": "UserStory",
+        "StoryPoints": 7,
+        "RiskAnalysis": "TBD",
+        "Tags": [
+          "L9 Machine Control",
+          "Milestone 1",
+          "MineAlert 2.3.0",
+          "MVP",
+          "IO: MineAlert-IOTP"
+          //"IO: MineAlert"
+        ],
+        "Links": [
+          {
+            "Type": "Parent",
+            "LinkedProfileID": "release-feature"
+          }
+        ]
+      },
+      "WorkItems": [
+        {
+          "ProfileID": "regression-story",
+          "Title": "${title-prefix} ${product-name} Regression Testing",
+          "Description": "Build a test plan containing all existing functional tests that should pass for this release.<br/>Review existing functionality in the product that lacks adequate test coverage and create new regression test cases accordingly.<br/>Review previously resolved bugs and ensure they have test coverage. If bugs are missing tests, create new regression test cases accordingly.<br/>Tests with low risk of regression (e.g. they haven't been affected by code changes since last run) should still be included but marked as \"won't run\".<br/>Integration, upgrade, and reliability tests should also be excluded from this story's test plan.<br/>Execute the tests. Create bugs to address failures.",
+          "AcceptanceCriteria": "Regression is verified.<br/>Bugs to address discovered issues are created and prioritized."
+        },
+        {
+          "ProfileID": "perf-rel-story",
+          "Title": "${title-prefix} ${product-name} Performance and Reliability Testing",
+          "Description": "Build a test plan to verify nominal performance limits, MTBF, and sustainable operation (no memory leaks, storage overflow, etc.).<br/>Execute the tests. Create bugs to address failures.",
+          "AcceptanceCriteria": "Performance and reliability are verified.<br/>Bugs to address discovered issues are created and prioritized."
+        },
+        {
+          "ProfileID": "integration-story",
+          "Title": "${title-prefix} ${product-name} Integration Testing",
+          "Description": "Build a test plan to verify integration with other product systems, like ProVision or CAS.<br/>Execute the tests. Create bugs to address failures.",
+          "AcceptanceCriteria": "Integration is verified.<br/>Bugs to address discovered issues are created and prioritized."
+        },
+        {
+          "ProfileID": "upgrade-story",
+          "Title": "${title-prefix} ${product-name} Upgrade Testing",
+          "Description": "Build a test plan to verify the process of upgrading an install of any currently supported version to the new release.<br/>Execute the tests. Create bugs to address failures.",
+          "AcceptanceCriteria": "Upgrade process is verified.<br/>Bugs to address discovered issues are created and prioritized."
+        },
+        {
+          "ProfileID": "bvr-story",
+          "Title": "${title-prefix} ${product-name} BVR",
+          "Description": "Produce the release documentation by following the BVR guide: <a href=\"http://examplewiki.com/x/FwYrB\">http://examplewiki.com/x/FwYrB</a>",
+          "AcceptanceCriteria": "The BVR is created."
+        }
+      ] //end action.workitems
+    }, //end action
+
+    //////////////////////////
+    // CREATE TASKS ACTION: //
+    //////////////////////////
+    {
+      "Name": "CREATE TASKS",
+      "Mode": "Create",
+      "WorkItemDefaults": 
+      {
+        "Title": "PLACEHOLDER",
+        "Type": "Task",
+        "Activity": "Testing",
+        "HoursRemaining": 55
+      },
+      "WorkItems": [
+        {
+          "ProfileID": "regression-task",
+          "Links": [
+            {
+              "Type": "Parent",
+              "LinkedProfileID": "regression-story"
+            }
+          ]
+        },
+        {
+          "ProfileID": "perf-rel-task",
+          "Links": [
+            {
+              "Type": "Parent",
+              "LinkedProfileID": "perf-rel-story"
+            }
+          ]
+        },
+        {
+          "ProfileID": "integration-task",
+          "Links": [
+            {
+              "Type": "Parent",
+              "LinkedProfileID": "integration-story"
+            }
+          ]
+        },
+        {
+          "ProfileID": "upgrade-task",
+          "Links": [
+            {
+              "Type": "Parent",
+              "LinkedProfileID": "upgrade-story"
+            }
+          ]
+        },
+        {
+          "ProfileID": "bvr-task",
+          "Links": [
+            {
+              "Type": "Parent",
+              "LinkedProfileID": "bvr-story"
+            }
+          ]
+        }
+      ] //end action.workitems
+    } //end action
+  ] //end blast.actions
+}

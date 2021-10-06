@@ -1,0 +1,160 @@
+{
+  "TfsUri": "https://your.tfs.hostname:port/tfs/DefaultCollection/ProductLine/",
+  "RequestTimeout": 30000,
+  "WorkItemDefaults": {
+    "AreaPath": "ProductLine\\Mine Alert\\Collision Awareness",
+    "IterationPath": "ProductLine\\Safety Systems\\MineAlert FY20\\Sprint 7 (Aug 20 - Sep 9)",
+    "Assignee": "",
+    "TextReplacements": {
+      "${title-prefix}": "[MS1]",
+      "${product-name}": "MA Central",
+      "${feature-name}": "config deployment for multiple FW versions"
+    }
+  },
+  "Actions": [
+
+    ///////////////////////////
+    // REFERENCE ONLY ITEMS: //
+    ///////////////////////////
+    {
+      "Name": "REFERENCE ONLY ITEMS",
+      "Mode": "NoAction",
+      "WorkItems": [
+        {
+          "ProfileID": "parent-story",
+          "WorkItemID": 688069
+        }
+        //{
+        //  "ProfileID": "parent-feature",
+        //  "WorkItemID": 676012
+        //}
+      ] //end action.workitems
+    },
+
+    ////////////////////////////
+    //// CREATE STORY ACTION: //
+    ////////////////////////////
+    //{
+    //  "Name": "CREATE STORY",
+    //  "Mode": "Create",
+    //  "WorkItemDefaults": {
+    //    "Type": "UserStory",
+    //    "Tags": [
+    //      "L9 Machine Control",
+    //      "Milestone 1",
+    //      "MineAlert 2.3.0",
+    //      "MVP",
+    //      "IO: MineAlert-IOTP"
+    //    ],
+    //    "Links": [
+    //      {
+    //        "Type": "Parent",
+    //        "LinkedProfileID": "parent-feature"
+    //      }
+    //    ]
+    //  },
+    //  "WorkItems": [
+    //    {
+    //      "ProfileID": "parent-story",
+    //      "Title": "${title-prefix} Deliver - ${product-name}: ${feature-name}",
+    //      "Description": "<ol><li>Perform internal release of feature</li><li>Assist with integration</li><li>Test integration</li><li>Deliver demo to stakeholders</li></ol>",
+    //      "AcceptanceCriteria": "Feature is approved by stakeholders and ready for external release",
+    //      "RiskAnalysis": "TBD",
+    //      //"FirstComment": "TFSBlaster wuz here",
+    //      "StoryPoints": 5,
+    //      "State": "Blocked" 
+    //    }
+    //  ] //end action.workitems
+    //}, //end action
+
+    //////////////////////////
+    // CREATE TASKS ACTION: //
+    //////////////////////////
+    {
+      "Name": "CREATE TASKS",
+      "Mode": "Create",
+      "WorkItemDefaults": {
+        "Type": "Task",
+        "Links": [
+          {
+            "Type": "Parent",
+            "LinkedProfileID": "parent-story"
+          }
+        ]
+      },
+      "WorkItems": [
+        {
+          "ProfileID": "release-task",
+          "Title": "Internal release",
+          "Description": "Provide access to a build and documentation other product teams can use to integrate with this feature. Provide a KT if necessary.",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Testing",
+          "HoursRemaining": 3
+        },
+        {
+          "ProfileID": "integration-assist-task",
+          "Title": "Assist with feature integration",
+          "State": "Blocked",
+          "Description": "Work with product teams to get their parts of the feature integrated with ours and ready for integration testing.",
+          "FirstComment": "Blocked until internal release is complete.",
+          "Activity": "Development",
+          "HoursRemaining": 8
+        },
+        {
+          "ProfileID": "integration-test-write-task",
+          "Title": "Write/link feature integration test cases",
+          "State": "Blocked",
+          "Description": "Prepare test cases for verifying feature integration. Coordinate with the other product teams to avoid excessive redundancy.",
+          "FirstComment": "Blocked until internal release is complete.",
+          "Activity": "Testing",
+          "HoursRemaining": 8
+        },
+        {
+          "ProfileID": "integration-test-review-task",
+          "Title": "Review feature integration test cases",
+          "State": "Blocked",
+          //"Description": "Implement unit tests if applicable and feasible. If not, close this task and leave an explanation in a comment.",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Testing",
+          "HoursRemaining": 2
+        },
+        {
+          "ProfileID": "integration-test-execute-task",
+          "Title": "Execute feature integration tests",
+          "State": "Blocked",
+          //"Description": "Create the pull request, send code review invites, get the team to review, address code review comments. Reopen other tasks if major changes are necessary.",
+          //"FirstComment": "Blocked until implementation is complete.",
+          "Activity": "Testing",
+          "HoursRemaining": 5
+        },
+        {
+          "ProfileID": "demo-prep-task",
+          "Title": "Prepare demo",
+          "State": "Blocked",
+          "Description": "Coordinate with product teams to prepare demo materials and schedule a demo meeting with interested stakeholders.",
+          //"FirstComment": "Blocked until code review is requested.",
+          "Activity": "Testing",
+          "HoursRemaining": 5
+        },
+        {
+          "ProfileID": "demo-deliver-task",
+          "Title": "Deliver demo",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          //"FirstComment": "Blocked until code review is requested.",
+          "Activity": "Testing",
+          "HoursRemaining": 3
+        },
+        {
+          "ProfileID": "estimation-review-task",
+          "Title": "Review estimation accuracy",
+          "State": "Blocked",
+          "Description": "Which tasks took much (>50%) more or less time than originally estimated? How much, and why?",
+          "FirstComment": "Blocked until all other work is done.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        }
+      ] //end action.workitems
+    } //end action
+  ] //end blast.actions
+}

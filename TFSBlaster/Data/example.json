@@ -1,0 +1,563 @@
+{
+  "TfsUri": "https://your.tfs.hostname:port/tfs/DefaultCollection/ProductLine/", //Point this at your project
+  "RequestTimeout": 30000, //Milliseconds to wait for a response to a single work item request (sometimes they take a long while)
+  "WorkItemDefaults": { //Default property values for all children. These will be overridden by values specified in a child. A list parameter overridden in a child is completely replaced, not e.g. merged.
+    "AreaPath": "ProductLine\\Mine Alert\\L9 Machine Control",
+    "IterationPath": "ProductLine\\Safety Systems\\MineAlert FY20\\Sprint 5 (Jul 9 - Jul 29)",
+    "Assignee": "", //If you don't explicitly set assignee blank, then TFS will automatically assign new work items to the user associated with the TFS credentials you provide
+    "TextReplacements": { //Any string property value containing one of these patterns in a child work item will have it replaced as specified
+      "${title-prefix}": "[Project Title Tag]",
+      "${product-name}": "Product Name",
+      "${feature-name}": "Feature Name",
+      "${analysis-doc-link}": "http://examplewiki.com/ExampleDocument" //This will be injected as plain text, not a link. To make it a hyperlink in the work item, use it in an HTML <a> tag.
+    }
+  },
+  "Actions": [ //Each action is a batch of work item requests that will be processed and completed before the next action is started
+
+    ///////////////////////////
+    // REFERENCE ONLY ITEMS: //
+    ///////////////////////////
+    {
+      "Name": "REFERENCE ONLY ITEMS", //The action name is only used for logging
+      "Mode": "NoAction", //In this action mode no actual request is made for these work items, they're only listed to provide metadata to other work items. Useful to simplify repetitive data like a work item ID for an existing work item linked to by multiple profiles in this blast.
+      "WorkItems": [ //Elements of this list are referred to as "work item profiles". Each defines target property values for a work item.
+        //{
+        //  "ProfileID": "requirement-feature",
+        //  "WorkItemID": xxxxxx
+        //},
+        {
+          "ProfileID": "milestone1-epic", //A profile ID allows other work item profiles to reference this one without knowing its actual work item ID. This ID can be any unique string. It's only used by this tool, it won't be sent in the work item request to TFS.
+          "WorkItemID": 667723
+        }
+      ] //end action.workitems
+    },
+
+    ////////////////////////////
+    // CREATE FEATURE ACTION: //
+    ////////////////////////////
+    {
+      "Name": "CREATE FEATURE",
+      "Mode": "Create", //In this action mode, work items will be created. Warning: duplication is not prevented.
+      "WorkItems": [
+        {
+          "ProfileID": "requirement-feature",
+          "Type": "Feature", //Supported work item types are listed in the TFSBlasterLib.Model.WorkItemProfile.WorkItemType enum.
+          "Title": "${title-prefix} ${product-name}: ${feature-name}",
+          "AreaPath": "ProductLine\\Mine Alert\\L9 Machine Control",
+          "IterationPath": "ProductLine\\Safety Systems",
+          "Description": "",
+          //"FirstComment": "TFSBlaster wuz here",
+          "Tags": [
+            "L9 Machine Control",
+            "Milestone 1",
+            "MineAlert 2.3.0",
+            "MVP"
+          ],
+          "Links": [
+            {
+              "Type": "Predecessor",
+              "LinkedItemID": 123456 //A work item with this work item ID must already exist in TFS before the blast begins. If you're creating that work item in this blast, use LinkedProfileID instead.
+            },
+            {
+              "Type": "Parent", //Supported link types are listed in the TFSBlasterLib.Model.WorkItemLink.LinkType enum.
+              "LinkedProfileID": "milestone1-epic" //A profile with this profile ID must be listed in an action that will run before this one. This linked profile must either have an existing work item ID assigned to it or else be listed in a Create action (in which case a work item ID will be assigned to it automatically upon creation).
+            }
+          ]
+        }
+      ] //end action.workitems
+    },
+
+    // Final note:
+    // The rest of this JSON defines a series of actions that first create a set of child stories under the feature created in the previous action,
+    // then create each story's child tasks. A different action is used for each story's set of tasks so that the parent story link can be set
+    // as a default for all tasks under the one action. You could do this other ways, e.g. a single massive action for every task, but then
+    // you'd have to specify every task's parent link individually.
+
+    ////////////////////////////
+    // CREATE STORIES ACTION: //
+    ////////////////////////////
+    {
+      "Name": "CREATE STORIES",
+      "Mode": "Create",
+      "WorkItemDefaults": {
+        "Type": "UserStory",
+        "Tags": [
+          "L9 Machine Control",
+          "Milestone 1",
+          "MineAlert 2.3.0",
+          "MVP",
+          "IO: MineAlert-IOTP"
+        ],
+        "Links": [
+          {
+            "Type": "Parent",
+            "LinkedProfileID": "requirement-feature"
+          }
+        ]
+      },
+      "WorkItems": [
+        {
+          "ProfileID": "analyze-story",
+          "Title": "${title-prefix} Analyze - ${product-name}: ${feature-name}",
+          //"IterationPath": "ProductLine\\Safety Systems\\MineAlert FY20\\Sprint 4 (Jun 18 - Jul 8)",
+          "Description": "Analysis document: ${analysis-doc-link}\n\nElaborate business requirements with mockups\nDefine technical requirements\nDesign technical solution details\nDesign test scenarios to verify requirements\nReview with developers and business",
+          "AcceptanceCriteria": "Document created in PDWiki\nDetailed business and technical analysis\nRequirements listed and covered by test scenarios\nReviewed by other developers and PdM",
+          "RiskAnalysis": "TBD",
+          //"FirstComment": "TFSBlaster wuz here",
+          "StoryPoints": 5
+        },
+        {
+          "ProfileID": "implement-story",
+          "Title": "${title-prefix} Implement - ${product-name}: ${feature-name}",
+          "Description": "Implement the design described in the feature analysis",
+          "State": "Blocked", //Since work items can't be created in a Blocked state, specifying this state in a work item profile for creation will cause TFSBlaster to append an Update action at runtime that changes the new work item's state to Blocked after its creation.
+          "AcceptanceCriteria": "The design described in the detailed technical analysis is implemented on a feature branch\nA PR or Shelveset build is reviewed and ready for testing\nPreparations for verification are complete",
+          "RiskAnalysis": "Copy WORK risks from analysis document to here",
+          "FirstComment": "Blocked until Analyze is complete.",
+          "StoryPoints": 5
+        },
+        {
+          "ProfileID": "verify-story",
+          "Title": "${title-prefix} Verify - ${product-name}: ${feature-name}",
+          "Description": "Verify the design described in the feature analysis",
+          "State": "Blocked",
+          "AcceptanceCriteria": "All test cases are executed\nAccepted failures are linked to bugs\nThe feature has been delivered (demoed) to stakeholders\nThe feature is ready for release",
+          "RiskAnalysis": "Tests or delivery reveal major issues\n\tMitigation: ",
+          "FirstComment": "Blocked until Implement is complete.",
+          "StoryPoints": 5
+        },
+        {
+          "ProfileID": "document-story",
+          "Title": "${title-prefix} Document - ${product-name}: ${feature-name}",
+          "Description": "Create or update user documentation.",
+          "State": "Blocked",
+          "AcceptanceCriteria": "The changes made for the feature are represented in user documentation.",
+          "RiskAnalysis": "Tests or delivery reveal major issues\n\tMitigation: ",
+          "FirstComment": "Blocked until Analyze is complete.",
+          "StoryPoints": 5
+        }
+      ] //end action.workitems
+    }, //end action
+
+    //////////////////////////////////
+    // CREATE ANALYZE TASKS ACTION: //
+    //////////////////////////////////
+    {
+      "Name": "CREATE ANALYZE TASKS",
+      "Mode": "Create",
+      "WorkItemDefaults": {
+        "Type": "Task",
+        //"IterationPath": "ProductLine\\Safety Systems\\MineAlert FY20\\Sprint 4 (Jun 18 - Jul 8)",
+        "Links": [
+          {
+            "Type": "Parent",
+            "LinkedProfileID": "analyze-story"
+          }
+        ]
+      },
+      "WorkItems": [
+        {
+          "ProfileID": "analyze-business-task",
+          "Title": "Detailed business description and acceptance criteria",
+          //"Description": "Task blasted!",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Testing",
+          "HoursRemaining": 3
+        },
+        {
+          "ProfileID": "analyze-mockup-task",
+          "Title": "Mockups",
+          //"Description": "Task blasted!",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "analyze-nonfunctional-task",
+          "Title": "Nonfunctional Requirements",
+          //"Description": "Task blasted!",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "analyze-system-task",
+          "Title": "System Design",
+          //"Description": "Task blasted!",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Testing",
+          "HoursRemaining": 3
+        },
+        {
+          "ProfileID": "analyze-test-task",
+          "Title": "Test scenarios",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until acceptance criteria are complete. Cannot be finished until risk analysis is complete.",
+          "Activity": "Testing",
+          "HoursRemaining": 3
+        },
+        {
+          "ProfileID": "analyze-documentation-task",
+          "Title": "Documentation",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until business description and mockups are available.",
+          "Activity": "Documentation",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "analyze-technical-task",
+          "Title": "Detailed technical description",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until system design is complete.",
+          "Activity": "Development",
+          "HoursRemaining": 5
+        },
+        {
+          "ProfileID": "analyze-risk-task",
+          "Title": "Risk analysis",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until system design is complete. Cannot be finished until detailed technical description is complete.",
+          "Activity": "Testing",
+          "HoursRemaining": 2
+        },
+        {
+          "ProfileID": "analyze-test-review-task",
+          "Title": "Review: test scenarios",
+          "State": "Blocked",
+          "Description": "If a QA engineer didn't do the test analysis, then a QA engineer must be included in this review.",
+          "FirstComment": "Blocked until test analysis is complete.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "analyze-nonfunctional-review-task",
+          "Title": "Review: nonfunctional requirements",
+          "State": "Blocked",
+          "Description": "In addition to providing team member review, also get review from appropriate stakeholders.",
+          "FirstComment": "Blocked until nonfunctional requirements are complete.",
+          "Activity": "Review",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "analyze-technical-review-task",
+          "Title": "Review: detailed technical description",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until detailed technical description is complete.",
+          "Activity": "Development",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "analyze-system-review-task",
+          "Title": "Review: system design",
+          "State": "Blocked",
+          "Description": "In addition to providing team member review, also get review from appropriate stakeholders.",
+          "FirstComment": "Blocked until system design is complete.",
+          "Activity": "Review",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "analyze-business-review-task",
+          "Title": "Review: business description, mockups, and acceptance criteria",
+          "State": "Blocked",
+          "Description": "In addition to providing team member review, also get review from appropriate stakeholders.",
+          "FirstComment": "Blocked until detailed business description is complete.",
+          "Activity": "Review",
+          "HoursRemaining": 2
+        },
+        {
+          "ProfileID": "analyze-estimation-review-task",
+          "Title": "Review estimation accuracy",
+          "State": "Blocked",
+          "Description": "Which tasks took much (>50%) more or less time than originally estimated? How much, and why?",
+          "FirstComment": "Blocked until all other work is done.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "analyze-estimate-cost-task",
+          "Title": "Estimate cost to deliver",
+          "State": "Blocked",
+          "Description": "Go through the finished analysis with the team (e.g. in a \"story time\" meeting).\nConfirm that the existing implement, verify, and document stories are sufficient, or create additional ones as needed.\nApply hour estimates to all tasks.\nUpdate parent user stories' story points to match hour totals.",
+          "FirstComment": "Blocked until the analysis is done.",
+          "Activity": "Testing",
+          "HoursRemaining": 36
+        }
+      ] //end action.workitems
+    }, //end action
+
+    ////////////////////////////////////
+    // CREATE IMPLEMENT TASKS ACTION: //
+    ////////////////////////////////////
+    {
+      "Name": "CREATE IMPLEMENT TASKS",
+      "Mode": "Create",
+      "WorkItemDefaults": {
+        "Type": "Task",
+        "Links": [
+          {
+            "Type": "Parent",
+            //"LinkedItemID": "672634",
+            "LinkedProfileID": "implement-story"
+          }
+        ]
+      },
+      "WorkItems": [
+        {
+          "ProfileID": "implement-task",
+          "Title": "Implement",
+          //"Description": "Task blasted!",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Development",
+          "HoursRemaining": 8
+        },
+        {
+          "ProfileID": "dev-tests-task",
+          "Title": "Development tests",
+          "State": "Blocked",
+          "Description": "Link test cases executed during development directly to this task.",
+          "FirstComment": "Blocked until test cases are ready to link.",
+          "Activity": "Development",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "unit-tests-task",
+          "Title": "Unit tests",
+          //"Description": "Task blasted!",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Development",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "code-review-request-task",
+          "Title": "Request code review and follow up",
+          "State": "Blocked",
+          "Description": "Send code review invites, get the team to review, address code review comments. Reopen other tasks if major changes are necessary.",
+          "FirstComment": "Blocked until implementation is complete.",
+          "Activity": "Development",
+          "HoursRemaining": 2
+        },
+        {
+          "ProfileID": "code-review-1-task",
+          "Title": "Code review 1",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until code review is requested.",
+          "Activity": "Development",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "code-review-2-task",
+          "Title": "Code review 2",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until code review is requested.",
+          "Activity": "Development",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "unit-test-review-task",
+          "Title": "Unit test results review",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until unit tests are complete.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "risk-analysis-task",
+          "Title": "Risk analysis",
+          "State": "Blocked",
+          "Description": "Revisit the implementation risks described in the analysis.\nIdentify additional code changes not planned in the original technical description and therefore possibly not covered in the original risk analysis.\nIdentify any additional risks not accounted for during analysis.\nIf test cases have already been created, review them to ensure coverage of all implementation risks.",
+          "FirstComment": "Blocked until implementation is complete.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "test-link-task",
+          "Title": "Write/update and link test cases",
+          //"Description": "Task blasted!",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Testing",
+          "HoursRemaining": 3
+        },
+        {
+          "ProfileID": "test-review-task",
+          "Title": "Review test cases",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until all necessary test cases are linked.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "automation-analysis-task",
+          "Title": "Technical analysis: new automated tests",
+          "State": "Blocked",
+          "Description": "Plan implementation of automated tests covering the scenarios described in the feature analysis. Estimate the cost to implement them and update the implementation task in the [Verify] story accordingly.",
+          "FirstComment": "Blocked until implementation is complete.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "implement-estimation-review-task",
+          "Title": "Review estimation accuracy",
+          "State": "Blocked",
+          "Description": "Which tasks took much (>50%) more or less time than originally estimated? How much, and why?",
+          "FirstComment": "Blocked until all other work is done.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        }
+      ] //end action.workitems
+    }, //end action
+
+    /////////////////////////////////
+    // CREATE VERIFY TASKS ACTION: //
+    /////////////////////////////////
+    {
+      "Name": "CREATE VERIFY TASKS",
+      "Mode": "Create",
+      "WorkItemDefaults": {
+        "Type": "Task",
+        "Links": [
+          {
+            "Type": "Parent",
+            //"LinkedItemID": "672635",
+            "LinkedProfileID": "verify-story"
+          }
+        ]
+      },
+      "WorkItems": [
+        {
+          "ProfileID": "automation-implement-task",
+          "Title": "Implement automated tests",
+          "Description": "Implement the plan produced by automation technical analysis as part of the [Implement] story.",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Testing",
+          "HoursRemaining": 5
+        },
+        {
+          "ProfileID": "automation-review-task",
+          "Title": "Request code review and follow up: automated tests",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until automation is implemented.",
+          "Activity": "Testing",
+          "HoursRemaining": 2
+        },
+        {
+          "ProfileID": "automation-review-1-task",
+          "Title": "Code review 1: automated tests",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until code review is requested.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "automation-review-2-task",
+          "Title": "Code review 2: automated tests",
+          "State": "Blocked",
+          //"Description": "Task blasted!",
+          "FirstComment": "Blocked until code review is requested.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "test-task",
+          "Title": "Execute tests",
+          //"Description": "Task blasted!",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Testing",
+          "HoursRemaining": 5
+        },
+        {
+          "ProfileID": "demo-task",
+          "Title": "Demo to stakeholders",
+          "Description": "Either include this feature in a sprint demo, or schedule a dedicated demo meeting with stakeholders.\nGet confirmation that the delivered feature meets expectations.",
+          //"FirstComment": "TFSBlaster wuz here 2",
+          "Activity": "Development",
+          "HoursRemaining": 3
+        },
+        {
+          "ProfileID": "release-prep-task",
+          "Title": "Review release preparedness",
+          "State": "Blocked",
+          "Description": "Verify that the feature meets all criteria for release preparedness: <a href=\"http://examplewiki.com/examplepage\">http://examplewiki.com/examplepage</a>",
+          "FirstComment": "Blocked until implementation and risk analysis are complete.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "merge-task",
+          "Title": "Complete the merge",
+          "State": "Blocked",
+          "Description": "",
+          "FirstComment": "Blocked until all verification is complete.",
+          "Activity": "Development",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "verify-estimation-review-task",
+          "Title": "Review estimation accuracy",
+          "State": "Blocked",
+          "Description": "Which tasks took much (>50%) more or less time than originally estimated? How much, and why?",
+          "FirstComment": "Blocked until all other work is done.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        }
+      ] //end action.workitems
+    }, //end action
+
+    ///////////////////////////////////
+    // CREATE DOCUMENT TASKS ACTION: //
+    ///////////////////////////////////
+    {
+      "Name": "CREATE DOCUMENT TASKS",
+      "Mode": "Create",
+      "WorkItemDefaults": {
+        "Type": "Task",
+        "Links": [
+          {
+            "Type": "Parent",
+            //"LinkedItemID": "672811",
+            "LinkedProfileID": "document-story"
+          }
+        ]
+      },
+      "WorkItems": [
+        {
+          "ProfileID": "document-task",
+          "Title": "${product-name} user documentation: ${feature-name}",
+          //"State": "Blocked",
+          //"Description": "",
+          //"FirstComment": "Blocked until all verification is complete.",
+          "Activity": "Documentation",
+          "HoursRemaining": 8
+        },
+        {
+          "ProfileID": "document-review-task",
+          "Title": "Technical review",
+          "State": "Blocked",
+          //"Description": "",
+          "FirstComment": "Blocked until documentation is ready for review.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        },
+        {
+          "ProfileID": "document-estimation-review-task",
+          "Title": "Review estimation accuracy",
+          "State": "Blocked",
+          "Description": "Which tasks took much (>50%) more or less time than originally estimated? How much, and why?",
+          "FirstComment": "Blocked until all other work is done.",
+          "Activity": "Testing",
+          "HoursRemaining": 1
+        }
+      ] //end action.workitems
+    } //end action
+  ] //end blast.actions
+}

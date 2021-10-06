@@ -1,0 +1,565 @@
+{
+  "TfsUri": "https://your.tfs.hostname:port/tfs/DefaultCollection/ProductLine/",
+  "RequestTimeout": 30000,
+  "WorkItemDefaults": {
+    "AreaPath": "ProductLine\\Mine Alert\\L9 Machine Control",
+    "IterationPath": "ProductLine\\Safety Systems\\MineAlert FY20\\Sprint 2 (May 7 - May 27)",
+    "Assignee": "",
+    "TextReplacements": {
+      "${title-prefix}": "[MS1]",
+      "${product-name}": "LSM",
+      "${requirement-number}": "Tech Debt",
+      "${feature-name}": "Compatibility for multiple FW versions",
+      "${analysis-doc-link}": ""
+    }
+  },
+  "Actions": [
+
+    ///////////////////////////
+    // REFERENCE ONLY ITEMS: //
+    ///////////////////////////
+    {
+      "Name": "REFERENCE ONLY ITEMS",
+      "Mode": "NoAction",
+      "WorkItems": [
+        {
+          "ProfileID": "milestone1-epic",
+          "WorkItemID": 667723
+        }
+        //{
+        //  "ProfileID": "requirement",
+        //  "WorkItemID": xxxxxx 
+        //},
+        //{
+        //  "ProfileID": "requirement-feature",
+        //  "WorkItemID": xxxxxx
+        //},
+        //{
+        //  "ProfileID": "analyze-story",
+        //  "WorkItemID": xxxxxx
+        //}
+      ] //end action.workitems
+    },
+
+    ////////////////////////////
+    // CREATE FEATURE ACTION: //
+    ////////////////////////////
+    {
+      "Name": "CREATE FEATURE",
+      "Mode": "Create",
+      "WorkItems": [
+        {
+          "ProfileID": "requirement-feature",
+          "Type": "Feature",
+          "Title": "${title-prefix} ${product-name}: ${feature-name}",
+          "AreaPath": "ProductLine\\Mine Alert\\L9 Machine Control",
+          "IterationPath": "ProductLine\\Safety Systems",
+          "Description": "The MineAlert Central version currently deployed at Moga only supports integration with WSUs running FW 2.0.2. WSUs running newer FW version 2.0.5 will be deployed alongside those running the older FW. We need to ensure Central maintains integration with both versions simultaneously.",
+          //"FirstComment": "TFSBlaster wuz here",
+          "Tags": [
+            "L9 Machine Control",
+            "Milestone 1",
+            "MineAlert 2.3.0",
+            "MVP",
+            "Req Doc 1.2"
+          ],
+          "Links": [
+            //{
+            //  "Type": "Predecessor",
+            //  "LinkedProfileID": "requirement"
+            //},
+            {
+              "Type": "Parent",
+              "LinkedProfileID": "milestone1-epic"
+            }
+          ]
+        }
+      ] //end action.workitems
+    },
+
+    //////////////////////////////
+    //// CREATE STORIES ACTION: //
+    //////////////////////////////
+    //{
+    //  "Name": "CREATE STORIES",
+    //  "Mode": "Create",
+    //  "WorkItemDefaults": {
+    //    "Type": "UserStory",
+    //    "Tags": [
+    //      "L9 Machine Control",
+    //      "Milestone 1",
+    //      "MineAlert 2.3.0",
+    //      "MVP",
+    //      "IO: MineAlert-IOTP"
+    //    ],
+    //    "Links": [
+    //      {
+    //        "Type": "Parent",
+    //        "LinkedProfileID": "requirement-feature"
+    //      }
+    //    ]
+    //  },
+    //  "WorkItems": [
+    //    {
+    //      "ProfileID": "analyze-story",
+    //      "Title": "${title-prefix} Analyze - ${product-name}: ${feature-name}",
+    //      "Description": "Analysis document: ${analysis-doc-link}\n\nElaborate business requirements with mockups\nDefine technical requirements\nDesign technical solution details\nDesign test scenarios to verify requirements\nReview with developers and business",
+    //      "AcceptanceCriteria": "Document created in PDWiki\nDetailed business and technical analysis\nRequirements listed and covered by test scenarios\nReviewed by other developers and PdM",
+    //      "RiskAnalysis": "TBD",
+    //      //"FirstComment": "TFSBlaster wuz here",
+    //      "StoryPoints": 5
+    //    },
+    //    {
+    //      "ProfileID": "implement-story",
+    //      "Title": "${title-prefix} Implement - ${product-name}: ${feature-name}",
+    //      "Description": "Implement the design described in the feature analysis",
+    //      "State": "Blocked",
+    //      "AcceptanceCriteria": "The design described in the detailed technical analysis is implemented on a feature branch\nA PR or Shelveset build is reviewed and ready for testing\nPreparations for verification are complete",
+    //      "RiskAnalysis": "Copy WORK risks from analysis document to here",
+    //      "FirstComment": "Blocked until Analyze is complete.",
+    //      "StoryPoints": 5
+    //    },
+    //    {
+    //      "ProfileID": "verify-story",
+    //      "Title": "${title-prefix} Verify - ${product-name}: ${feature-name}",
+    //      "Description": "Verify the design described in the feature analysis",
+    //      "State": "Blocked",
+    //      "AcceptanceCriteria": "All test cases are executed\nAccepted failures are linked to bugs\nThe feature has been delivered (demoed) to stakeholders\nThe feature is ready for release",
+    //      "RiskAnalysis": "Tests or delivery reveal major issues\n\tMitigation: ",
+    //      "FirstComment": "Blocked until Implement is complete.",
+    //      "StoryPoints": 5
+    //    },
+    //    {
+    //      "ProfileID": "document-story",
+    //      "Title": "${title-prefix} Document - ${product-name}: ${feature-name}",
+    //      "Description": "Create or update user documentation.",
+    //      "State": "Blocked",
+    //      "AcceptanceCriteria": "The changes made for the feature are represented in user documentation.",
+    //      "RiskAnalysis": "Tests or delivery reveal major issues\n\tMitigation: ",
+    //      "FirstComment": "Blocked until Analyze is complete.",
+    //      "StoryPoints": 5
+    //    }
+    //  ] //end action.workitems
+    //}, //end action
+
+    //////////////////////////////////
+    // CREATE ANALYZE TASKS ACTION: //
+    //////////////////////////////////
+    {
+      "Name": "CREATE ANALYZE TASKS",
+      "Mode": "Create",
+      "WorkItemDefaults": {
+        "Type": "Task",
+        "Links": [
+          {
+            "Type": "Parent",
+            "LinkedProfileID": "analyze-story"
+          }
+        ]
+      },
+      "WorkItems": [
+        //{
+        //  "ProfileID": "analyze-business-task",
+        //  "Title": "Detailed business description and acceptance criteria",
+        //  //"Description": "Task blasted!",
+        //  //"FirstComment": "TFSBlaster wuz here 2",
+        //  "Activity": "Testing",
+        //  "HoursRemaining": 3
+        //},
+        //{
+        //  "ProfileID": "analyze-mockup-task",
+        //  "Title": "Mockups",
+        //  //"Description": "Task blasted!",
+        //  //"FirstComment": "TFSBlaster wuz here 2",
+        //  "Activity": "Testing",
+        //  "HoursRemaining": 1
+        //},
+        //{
+        //  "ProfileID": "analyze-nonfunctional-task",
+        //  "Title": "Nonfunctional Requirements",
+        //  //"Description": "Task blasted!",
+        //  //"FirstComment": "TFSBlaster wuz here 2",
+        //  "Activity": "Testing",
+        //  "HoursRemaining": 1
+        //},
+        //{
+        //  "ProfileID": "analyze-system-task",
+        //  "Title": "System Design",
+        //  //"Description": "Task blasted!",
+        //  //"FirstComment": "TFSBlaster wuz here 2",
+        //  "Activity": "Testing",
+        //  "HoursRemaining": 3
+        //},
+        //{
+        //  "ProfileID": "analyze-test-task",
+        //  "Title": "Test scenarios",
+        //  "State": "Blocked",
+        //  //"Description": "Task blasted!",
+        //  "FirstComment": "Blocked until acceptance criteria are complete. Cannot be finished until risk analysis is complete.",
+        //  "Activity": "Testing",
+        //  "HoursRemaining": 3
+        //},
+        //{
+        //  "ProfileID": "analyze-documentation-task",
+        //  "Title": "Documentation",
+        //  "State": "Blocked",
+        //  //"Description": "Task blasted!",
+        //  "FirstComment": "Blocked until business description and mockups are available.",
+        //  "Activity": "Documentation",
+        //  "HoursRemaining": 1
+        //},
+        //{
+        //  "ProfileID": "analyze-technical-task",
+        //  "Title": "Detailed technical description",
+        //  "State": "Blocked",
+        //  //"Description": "Task blasted!",
+        //  "FirstComment": "Blocked until system design is complete.",
+        //  "Activity": "Development",
+        //  "HoursRemaining": 5
+        //},
+        //{
+        //  "ProfileID": "analyze-risk-task",
+        //  "Title": "Risk analysis",
+        //  "State": "Blocked",
+        //  //"Description": "Task blasted!",
+        //  "FirstComment": "Blocked until system design is complete. Cannot be finished until detailed technical description is complete.",
+        //  "Activity": "Testing",
+        //  "HoursRemaining": 2
+        //},
+        //{
+        //  "ProfileID": "analyze-test-review-task",
+        //  "Title": "Review: test scenarios",
+        //  "State": "Blocked",
+        //  "Description": "If a QA engineer didn't do the test analysis, then a QA engineer must be included in this review.",
+        //  "FirstComment": "Blocked until test analysis is complete.",
+        //  "Activity": "Testing",
+        //  "HoursRemaining": 1
+        //},
+        //{
+        //  "ProfileID": "analyze-nonfunctional-review-task",
+        //  "Title": "Review: nonfunctional requirements",
+        //  "State": "Blocked",
+        //  "Description": "In addition to providing team member review, also get review from appropriate stakeholders.",
+        //  "FirstComment": "Blocked until nonfunctional requirements are complete.",
+        //  "Activity": "Review",
+        //  "HoursRemaining": 1
+        //},
+        //{
+        //  "ProfileID": "analyze-technical-review-task",
+        //  "Title": "Review: detailed technical description",
+        //  "State": "Blocked",
+        //  //"Description": "Task blasted!",
+        //  "FirstComment": "Blocked until detailed technical description is complete.",
+        //  "Activity": "Development",
+        //  "HoursRemaining": 1
+        //},
+        //{
+        //  "ProfileID": "analyze-system-review-task",
+        //  "Title": "Review: system design",
+        //  "State": "Blocked",
+        //  "Description": "In addition to providing team member review, also get review from appropriate stakeholders.",
+        //  "FirstComment": "Blocked until system design is complete.",
+        //  "Activity": "Review",
+        //  "HoursRemaining": 1
+        //},
+        //{
+        //  "ProfileID": "analyze-business-review-task",
+        //  "Title": "Review: business description, mockups, and acceptance criteria",
+        //  "State": "Blocked",
+        //  "Description": "In addition to providing team member review, also get review from appropriate stakeholders.",
+        //  "FirstComment": "Blocked until detailed business description is complete.",
+        //  "Activity": "Review",
+        //  "HoursRemaining": 2
+        //},
+        //{
+        //  "ProfileID": "analyze-estimation-review-task",
+        //  "Title": "Review estimation accuracy",
+        //  "State": "Blocked",
+        //  "Description": "Which tasks took much (>50%) more or less time than originally estimated? How much, and why?",
+        //  "FirstComment": "Blocked until all other work is done.",
+        //  "Activity": "Testing",
+        //  "HoursRemaining": 1
+        //},
+        {
+          "ProfileID": "analyze-estimate-cost-task",
+          "Title": "Estimate cost to deliver",
+          "State": "Blocked",
+          "Description": "Go through the finished analysis with the team (e.g. in a \"story time\" meeting).\nConfirm that the existing implement, verify, and document stories are sufficient, or create additional ones as needed.\nApply hour estimates to all tasks.\nUpdate parent user stories' story points to match hour totals.",
+          "FirstComment": "Blocked until the analysis is done.",
+          "Activity": "Testing",
+          "HoursRemaining": 5
+        }
+      ] //end action.workitems
+    } //end action
+
+    //////////////////////////////////////
+    //// CREATE IMPLEMENT TASKS ACTION: //
+    //////////////////////////////////////
+    //{
+    //  "Name": "CREATE IMPLEMENT TASKS",
+    //  "Mode": "Create",
+    //  "WorkItemDefaults": {
+    //    "Type": "Task",
+    //    "Links": [
+    //      {
+    //        "Type": "Parent",
+    //        //"LinkedItemID": "672634",
+    //        "LinkedProfileID": "implement-story"
+    //      }
+    //    ]
+    //  },
+    //  "WorkItems": [
+    //    {
+    //      "ProfileID": "implement-task",
+    //      "Title": "Implement",
+    //      //"Description": "Task blasted!",
+    //      //"FirstComment": "TFSBlaster wuz here 2",
+    //      "Activity": "Development",
+    //      "HoursRemaining": 8
+    //    },
+    //    {
+    //      "ProfileID": "dev-tests-task",
+    //      "Title": "Development tests",
+    //      "State": "Blocked",
+    //      "Description": "Link test cases executed during development directly to this task.",
+    //      "FirstComment": "Blocked until test cases are ready to link.",
+    //      "Activity": "Development",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "unit-tests-task",
+    //      "Title": "Unit tests",
+    //      //"Description": "Task blasted!",
+    //      //"FirstComment": "TFSBlaster wuz here 2",
+    //      "Activity": "Development",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "code-review-request-task",
+    //      "Title": "Request code review and follow up",
+    //      "State": "Blocked",
+    //      "Description": "Send code review invites, get the team to review, address code review comments. Reopen other tasks if major changes are necessary.",
+    //      "FirstComment": "Blocked until implementation is complete.",
+    //      "Activity": "Development",
+    //      "HoursRemaining": 2
+    //    },
+    //    {
+    //      "ProfileID": "code-review-1-task",
+    //      "Title": "Code review 1",
+    //      "State": "Blocked",
+    //      //"Description": "Task blasted!",
+    //      "FirstComment": "Blocked until code review is requested.",
+    //      "Activity": "Development",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "code-review-2-task",
+    //      "Title": "Code review 2",
+    //      "State": "Blocked",
+    //      //"Description": "Task blasted!",
+    //      "FirstComment": "Blocked until code review is requested.",
+    //      "Activity": "Development",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "unit-test-review-task",
+    //      "Title": "Unit test results review",
+    //      "State": "Blocked",
+    //      //"Description": "Task blasted!",
+    //      "FirstComment": "Blocked until unit tests are complete.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "risk-analysis-task",
+    //      "Title": "Risk analysis",
+    //      "State": "Blocked",
+    //      "Description": "Revisit the implementation risks described in the analysis.\nIdentify additional code changes not planned in the original technical description and therefore possibly not covered in the original risk analysis.\nIdentify any additional risks not accounted for during analysis.\nIf test cases have already been created, review them to ensure coverage of all implementation risks.",
+    //      "FirstComment": "Blocked until implementation is complete.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "test-link-task",
+    //      "Title": "Write/update and link test cases",
+    //      //"Description": "Task blasted!",
+    //      //"FirstComment": "TFSBlaster wuz here 2",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 3
+    //    },
+    //    {
+    //      "ProfileID": "test-review-task",
+    //      "Title": "Review test cases",
+    //      "State": "Blocked",
+    //      //"Description": "Task blasted!",
+    //      "FirstComment": "Blocked until all necessary test cases are linked.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "automation-analysis-task",
+    //      "Title": "Technical analysis: new automated tests",
+    //      "State": "Blocked",
+    //      "Description": "Plan implementation of automated tests covering the scenarios described in the feature analysis. Estimate the cost to implement them and update the implementation task in the [Verify] story accordingly.",
+    //      "FirstComment": "Blocked until implementation is complete.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "implement-estimation-review-task",
+    //      "Title": "Review estimation accuracy",
+    //      "State": "Blocked",
+    //      "Description": "Which tasks took much (>50%) more or less time than originally estimated? How much, and why?",
+    //      "FirstComment": "Blocked until all other work is done.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 1
+    //    }
+    //  ] //end action.workitems
+    //}, //end action
+
+    ///////////////////////////////////
+    //// CREATE VERIFY TASKS ACTION: //
+    ///////////////////////////////////
+    //{
+    //  "Name": "CREATE VERIFY TASKS",
+    //  "Mode": "Create",
+    //  "WorkItemDefaults": {
+    //    "Type": "Task",
+    //    "Links": [
+    //      {
+    //        "Type": "Parent",
+    //        //"LinkedItemID": "672635",
+    //        "LinkedProfileID": "verify-story"
+    //      }
+    //    ]
+    //  },
+    //  "WorkItems": [
+    //    {
+    //      "ProfileID": "automation-implement-task",
+    //      "Title": "Implement automated tests",
+    //      "Description": "Implement the plan produced by automation technical analysis as part of the [Implement] story.",
+    //      //"FirstComment": "TFSBlaster wuz here 2",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 5
+    //    },
+    //    {
+    //      "ProfileID": "automation-review-task",
+    //      "Title": "Request code review and follow up: automated tests",
+    //      "State": "Blocked",
+    //      //"Description": "Task blasted!",
+    //      "FirstComment": "Blocked until automation is implemented.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 2
+    //    },
+    //    {
+    //      "ProfileID": "automation-review-1-task",
+    //      "Title": "Code review 1: automated tests",
+    //      "State": "Blocked",
+    //      //"Description": "Task blasted!",
+    //      "FirstComment": "Blocked until code review is requested.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "automation-review-2-task",
+    //      "Title": "Code review 2: automated tests",
+    //      "State": "Blocked",
+    //      //"Description": "Task blasted!",
+    //      "FirstComment": "Blocked until code review is requested.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "test-task",
+    //      "Title": "Execute tests",
+    //      //"Description": "Task blasted!",
+    //      //"FirstComment": "TFSBlaster wuz here 2",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 5
+    //    },
+    //    {
+    //      "ProfileID": "demo-task",
+    //      "Title": "Demo to stakeholders",
+    //      "Description": "Either include this feature in a sprint demo, or schedule a dedicated demo meeting with stakeholders.\nGet confirmation that the delivered feature meets expectations.",
+    //      //"FirstComment": "TFSBlaster wuz here 2",
+    //      "Activity": "Development",
+    //      "HoursRemaining": 3
+    //    },
+    //    {
+    //      "ProfileID": "release-prep-task",
+    //      "Title": "Review release preparedness",
+    //      "State": "Blocked",
+    //      "Description": "Verify that the feature meets all criteria for release preparedness: http://examplewiki.com/display/MINEALERT/Definition+of+Done#DefinitionofDone-Releasepreparednessreview",
+    //      "FirstComment": "Blocked until implementation and risk analysis are complete.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "merge-task",
+    //      "Title": "Complete the merge",
+    //      "State": "Blocked",
+    //      "Description": "",
+    //      "FirstComment": "Blocked until all verification is complete.",
+    //      "Activity": "Development",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "verify-estimation-review-task",
+    //      "Title": "Review estimation accuracy",
+    //      "State": "Blocked",
+    //      "Description": "Which tasks took much (>50%) more or less time than originally estimated? How much, and why?",
+    //      "FirstComment": "Blocked until all other work is done.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 1
+    //    }
+    //  ] //end action.workitems
+    //}, //end action
+
+    /////////////////////////////////////
+    //// CREATE DOCUMENT TASKS ACTION: //
+    /////////////////////////////////////
+    //{
+    //  "Name": "CREATE DOCUMENT TASKS",
+    //  "Mode": "Create",
+    //  "WorkItemDefaults": {
+    //    "Type": "Task",
+    //    "Links": [
+    //      {
+    //        "Type": "Parent",
+    //        //"LinkedItemID": "672811",
+    //        "LinkedProfileID": "document-story"
+    //      }
+    //    ]
+    //  },
+    //  "WorkItems": [
+    //    {
+    //      "ProfileID": "document-task",
+    //      "Title": "${product-name} user documentation: ${feature-name}",
+    //      //"State": "Blocked",
+    //      //"Description": "",
+    //      //"FirstComment": "Blocked until all verification is complete.",
+    //      "Activity": "Documentation",
+    //      "HoursRemaining": 8
+    //    },
+    //    {
+    //      "ProfileID": "document-review-task",
+    //      "Title": "Technical review",
+    //      "State": "Blocked",
+    //      //"Description": "",
+    //      "FirstComment": "Blocked until documentation is ready for review.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 1
+    //    },
+    //    {
+    //      "ProfileID": "document-estimation-review-task",
+    //      "Title": "Review estimation accuracy",
+    //      "State": "Blocked",
+    //      "Description": "Which tasks took much (>50%) more or less time than originally estimated? How much, and why?",
+    //      "FirstComment": "Blocked until all other work is done.",
+    //      "Activity": "Testing",
+    //      "HoursRemaining": 1
+    //    }
+    //  ] //end action.workitems
+    //} //end action
+  ] //end blast.actions
+}

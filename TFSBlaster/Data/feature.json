@@ -1,0 +1,63 @@
+﻿{
+  "TfsUri": "https://your.tfs.hostname:port/tfs/DefaultCollection/ProductLine/",
+  "Actions": 
+  [
+    {
+      "Mode": "Create",
+      "WorkItems": 
+      [
+        {
+          "ProfileID": 1,
+          "Type": "UserStory",
+          "Title": "TFSBlaster test story",
+          "AreaPath": "ProductLine\\Mine Alert\\Team Operations",
+          "IterationPath": "ProductLine\\Safety Systems",
+          "Description": "This story is a blast",
+          "AcceptanceCriteria": "Make a story with child tasks",
+          "RiskAnalysis": "TFSBlaster isn't perfect\\r\\n\\tMitigation: <b>fix it</b>!",
+          "FirstComment": "TFSBlaster wuz here",
+          "StoryPoints": 1.5,
+          "Tags": 
+          [
+            "IO: Infrastructure",
+            "DevOps"
+          ],
+          "Links": 
+          [
+            {
+              "Type": "Parent",
+              "LinkedItemID": 671457
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Mode": "Create",
+      "WorkItems": [
+        {
+          "ProfileID": 2,
+          "Type": "Task",
+          "Title": "TFSBlaster test task",
+          "AreaPath": "ProductLine\\Mine Alert\\Team Operations",
+          "IterationPath": "ProductLine\\Safety Systems",
+          "Description": "Task blasted!",
+          "AcceptanceCriteria": "Make a child task",
+          "RiskAnalysis": "None",
+          "FirstComment": "TFSBlaster wuz here 2",
+          "HoursRemaining": 4, 
+          "Tags": [
+            "IO: Infrastructure",
+            "DevOps"
+          ],
+          "Links": [
+            {
+              "Type": "Parent",
+              "LinkedProfileID": 1
+            }
+          ]
+        }
+      ]
+    }
+  ] 
+}
